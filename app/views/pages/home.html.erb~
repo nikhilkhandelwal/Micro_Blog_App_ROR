@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Sample App | Home</title>
+  </head>
+
+  <body>
+
+
+    <h1>Sample App</h1>
+    <p>
+      This is the Home page for the
+      <a>Ruby on Rails Sample APP</a>
+      sample application.
+    </p>
+    </body>
+</html>
+
