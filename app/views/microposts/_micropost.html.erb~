@@ -1,11 +1,13 @@
 <tr>
   <td class="micropost">
-    <span class="content"><%= micropost.content %></span>
+    <span class="content"><%=link_to micropost.content, micropost %></span>
     <span class="timestamp">
       Asked <%= time_ago_in_words(micropost.created_at) %> ago.
     </span>
   </td>
-<% if current_user?(micropost.user) %>
+<% user = micropost.user rescue User.find(micropost.user_id) %>
+<% if current_user?(user) %>
+
     <td>
       <%= link_to "delete", micropost, :method => :delete,
                                        :confirm => "You sure?",

@@ -1,9 +1,15 @@
 SampleApp::Application.routes.draw do
+  get "comments/create"
+
+  get "comments/destroy"
+
   get "sessions/new"
 
   resources :users
   resources :sessions, :only => [:new, :create, :destroy]
-  resources :microposts, :only => [:create, :destroy]
+  resources :microposts, :only => [:create, :destroy, :show] do
+	  resources :comments
+  end
   
   match '/signup', :to => 'users#new'
   match '/signin', :to => 'sessions#new'

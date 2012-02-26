@@ -35,12 +35,13 @@ def self.authenticate(email, submitted_password)
   end
 def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)
+    session[:rememebr_token]= user
     (user && user.salt == cookie_salt) ? user : nil
   end
 
 
 def feed
-	Micropost.where("user_id BETWEEN '1' AND '102'")
+	Micropost.where("user_id BETWEEN '1' AND '105'")
 	#Micropost.where("user_id = ?", id)
 end
   private
