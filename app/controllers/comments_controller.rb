@@ -6,6 +6,12 @@ class CommentsController < ApplicationController
 redirect_to @micropost
   end
 
+  def ajaxdestroy
+  new_rating = self.rating +1
+  update_attribute :rating, new_rating
+  end
+
+
   def destroy
   end
 

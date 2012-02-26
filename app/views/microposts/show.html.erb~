@@ -1,3 +1,4 @@
+
 <table class="profile" summary="Profile information">
 <tr>
 <td class="main">
@@ -6,6 +7,7 @@
 <%= @micropost.user.name %>
 </h1>
 <h1>Q. <%= @micropost.content %> <h1>
+
 </td>
 </tr>
 <td>Answers</td>
@@ -16,7 +18,8 @@
 <tr>
 <h2>
 	<td><span class="content"> <%= comment.text %></span></td>
-	<td><%= @user.name %></td>
+	<td>by <%= User.find_by_id(comment.user_id).name %></td>
+	
 </tr>
 </h2>
 
@@ -27,6 +30,8 @@
 </table>
 <%= form_for [@micropost, @micropost.comments.build] do |f| %>
 	<p><%= f.text_area :text, :size => '40x10' %></p>
+	<p><%= f.hidden_field :user_id, :value => current_user.id %></p>
+	<p><%= f.hidden_field :rating, :value => '0' %></p>
 	<p><%= f.submit "post comment" %></p>
 <% end %>
 
