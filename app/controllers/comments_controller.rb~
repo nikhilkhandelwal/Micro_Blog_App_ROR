@@ -3,14 +3,18 @@ class CommentsController < ApplicationController
   @micropost = Micropost.find(params[:micropost_id])
   @comment = @micropost.comments.build(params[:comment])
   @comment.save
-redirect_to @micropost
+  
+  redirect_to @micropost
   end
 
   def edit
-  @micropost = Micropost.find(params[:micropost_id])
-  @comment.rating = @comment.rating +1
-  @comment.save
-  end
+  
+ @comment = Comment.find(1);
+ x = @comment.rating
+ @comment.rating = x+1
+ @comment.save	
+ @micropost =  Micropost.find(1)
+ redirect_to @micropost  end
 
 
   def destroy

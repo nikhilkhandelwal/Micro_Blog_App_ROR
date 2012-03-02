@@ -1,0 +1,5 @@
+<%= session[:rem_this] = @com.id %>
+<%= link_to 'like',{:action => 'edit', :controller => "comments" }, :confirm => "Are you sure?"  %></td>
+
+
+

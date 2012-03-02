@@ -211,6 +211,9 @@ table.microposts tr td.micropost {
   vertical-align: top;
   padding-top: 10px;
 }
+table.microposts tr td.micropost span.content {
+ font-size: 150%
+}
 
 table.microposts tr td.micropost span.timestamp {
   display: block;
