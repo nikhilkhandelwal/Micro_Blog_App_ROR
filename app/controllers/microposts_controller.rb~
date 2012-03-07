@@ -1,5 +1,5 @@
 class MicropostsController < ApplicationController
-  before_filter :authenticate, :only => [:create, :destroy, :show, :rate_up]
+  before_filter :authenticate, :only => [:create, :destroy, :show]
   before_filter :authorized_user, :only => :destroy
 
   def show
@@ -25,23 +25,58 @@ def create
   end
 
 def rate_up
+
    @micropost = Micropost.find(params[:id])
    @comment = @micropost.comments.find(params[:format])
+    begin
+   	@rating = Rating.new()
+	@rating.user_id = current_user.id
+	@rating.comment_id = @comment.id
+	@rating.save!
+  
+   rescue
+        flash[:success] = "cannot rate up/down again"
+        redirect_to @micropost and return
+   end
    @comment.rating += 1;
-  #@user_karma = @comment.user
+   @users_karma = User.find(@comment.user_id)
    @comment.save;
-   #user_karma.karma += 1;
-   #user_karma.save!
+   @users_karma.karma += 1;
+   @users_karma.save!
+   #creating rating entry
+  
+
    redirect_to @micropost
-     end
+end
 
 def rate_down
-  @micropost = Micropost.find(params[:id])
-  @comment = @micropost.comments.find(params[:format])
+ 	
+  @micropost = Micropost.find(params[:id])   
+   @comment = @micropost.comments.find(params[:format])
+
+   
+   begin
+   	@rating = Rating.new()
+	@rating.user_id = current_user.id
+	@rating.comment_id = @comment.id
+	@rating.save!
+  
+   rescue
+        flash[:success] = "cannot rate up/down again"
+        redirect_to @micropost and return
+   end
+   if current_user.karma >= 10 
    @comment.rating -= 1;
    @comment.save;
+   @users_karma = User.find(@comment.user_id)
    
-   redirect_to @post;
+   @users_karma.karma -= 1;
+   @users_karma.save!
+   redirect_to @micropost
+    else
+      flash[:success] = "Cannot rate down a comment, karma < 10!"
+      redirect_to @micropost
+    end
  end
     
   
@@ -53,5 +88,5 @@ def rate_down
 	 
 
   end
-end
 
+end

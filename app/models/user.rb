@@ -12,7 +12,7 @@
 class User < ActiveRecord::Base
 
 attr_accessor :password
-attr_accessible :name, :email, :email, :password, :password_confirmation
+attr_accessible :name, :email,:karma, :password, :password_confirmation
 has_many :microposts, :dependent => :destroy
 email_regex = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 validates :name, :presence => true,
@@ -20,10 +20,10 @@ validates :name, :presence => true,
 validates :email, :presence => true,
 		  :format   => { :with => email_regex },
 		  :uniqueness => { :case_sensitive => false }
-validates :password, :presence     => true,
+validates :password, 
                        :confirmation => true,
-                       :length       => { :within => 6..40 }
-before_save :encrypt_password
+                       :length       => { :within => 6..40 }, :on => :create
+before_create :encrypt_password
 
 def has_password?(submitted_password)
     encrypted_password == encrypt(submitted_password)
@@ -45,6 +45,7 @@ def feed
 	#Micropost.where("user_id = ?", id)
 end
   private
+
 
     def encrypt_password
       self.salt = make_salt unless has_password?(password)
